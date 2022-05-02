@@ -1,8 +1,6 @@
-/// Support for doing something awesome.
+/// Play Tic Tac Toe
 ///
-/// More dartdocs go here.
+/// Use this package to create a Tic Tac Toe Game.
 library tic_tac_toe_game;
 
-export 'src/tic_tac_toe_game_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/tic_tac_toe_game_state.dart';
