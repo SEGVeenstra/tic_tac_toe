@@ -77,4 +77,75 @@ void main() {
       );
     },
   );
+
+  group(
+    'doMove',
+    () {
+      test(
+        'when a valid move is made, return new game state ',
+        () {
+          final initialState = TicTacToeGameState();
+          final expectedState = TicTacToeGameState(fields: [
+            Players.p1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ]);
+
+          final newState = initialState.doMove(Players.p1, 0);
+
+          expect(newState, expectedState);
+        },
+      );
+
+      test(
+        'when p1 tries to make a move when it\'s not his turn, throw error',
+        () {
+          final initialState = TicTacToeGameState(fields: [
+            Players.p1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ]);
+
+          expect(
+            () => initialState.doMove(Players.p1, 1),
+            throwsA(isA<InvalidMoveException>()),
+          );
+        },
+      );
+
+      test(
+        'when p2 tries to make a move when it\'s not his turn, throw error',
+        () {
+          final initialState = TicTacToeGameState(fields: [
+            Players.p1,
+            Players.p2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ]);
+
+          expect(
+            () => initialState.doMove(Players.p2, 1),
+            throwsA(isA<InvalidMoveException>()),
+          );
+        },
+      );
+    },
+  );
 }

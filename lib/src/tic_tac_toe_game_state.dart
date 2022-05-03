@@ -1,8 +1,23 @@
+import 'package:equatable/equatable.dart';
+
 enum Players { p1, p2 }
 
 enum TicTacToeStatus { p1Turn, p2Turn, draw, p1Won, p2Won }
 
-class TicTacToeGameState {
+class InvalidMoveException with EquatableMixin implements Exception {
+  final String message;
+  final TicTacToeGameState state;
+
+  const InvalidMoveException({
+    required this.message,
+    required this.state,
+  });
+
+  @override
+  List<Object?> get props => [message, state];
+}
+
+class TicTacToeGameState with EquatableMixin {
   final List<Players?> fields;
 
   TicTacToeGameState(
@@ -47,5 +62,25 @@ class TicTacToeGameState {
   }
 
   /// Do a move
-  void doMove(Players player, int field) {}
+  TicTacToeGameState doMove(Players player, int field) {
+    if (status != Players.p1 && player == Players.p1) {
+      throw InvalidMoveException(
+        message: 'P1 tried to make a move, but it\'s not P1\'s turn.',
+        state: this,
+      );
+    }
+    if (status != Players.p2 && player == Players.p2) {
+      throw InvalidMoveException(
+        message: 'P2 tried to make a move, but it\'s not P2\'s turn.',
+        state: this,
+      );
+    }
+
+    final newFields = List.of(fields);
+    newFields[field] = player;
+    return TicTacToeGameState(fields: newFields);
+  }
+
+  @override
+  List<Object?> get props => [fields];
 }
