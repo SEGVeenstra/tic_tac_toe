@@ -11,25 +11,24 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Game logic for the game [Tic Tac Toe](https://www.google.com/search?q=tictactoe).
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Simply create a new instance of `TicTacToeGameState` and call the `claimField` function to play the game.
 
 ```dart
-const like = 'sample';
+final gameState = TicTacToeGameState();
+
+// Use .fields to get the state of the fields.
+// You can use this to draw the UI for example.
+final fields = gameState.fields;
+// Use .status to get the current status of the game.
+// You can use this to show the players who's turn it is or who has won the game.
+final status = gameState.status;
+
+// Use .claimField to let the current player claim a field. The result is a new instance.
+final newState = gameState.claimField(4);
 ```
 
 ## Additional information

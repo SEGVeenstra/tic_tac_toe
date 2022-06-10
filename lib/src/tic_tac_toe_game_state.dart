@@ -1,10 +1,8 @@
 import 'package:meta/meta.dart';
+import 'package:tic_tac_toe_game/src/invalid_claim_exception.dart';
 
-/// The Players for the Tic Tac Toe game.
-enum Player { p1, p2 }
-
-/// The states the game can be in.
-enum Status { p1Turn, p2Turn, p1Won, p2Won, draw }
+import 'player.dart';
+import 'status.dart';
 
 /// The state of a Tic Tac Toe Game
 class TicTacToeGameState {
@@ -25,6 +23,19 @@ class TicTacToeGameState {
     final hasEvenAmountOfOccupiedFields = occupiedFields.length % 2 == 0;
 
     return hasEvenAmountOfOccupiedFields ? Status.p1Turn : Status.p2Turn;
+  }
+
+  TicTacToeGameState claimField(int field) {
+    if (field < 0 || field > 8 || _fields[field] != null) {
+      throw InvalidClaimException();
+    }
+    if (status != Status.p1Turn && status != Status.p2Turn) {
+      throw InvalidClaimException();
+    }
+    final newFields = fields;
+    newFields[field] = status == Status.p1Turn ? Player.p1 : Player.p2;
+
+    return TicTacToeGameState.seed(newFields);
   }
 
   TicTacToeGameState()

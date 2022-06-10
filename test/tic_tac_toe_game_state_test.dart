@@ -72,6 +72,84 @@ void main() {
       );
     },
   );
+
+  group(
+    'claimField',
+    () {
+      group(
+        'invalid claims',
+        () {
+          final testCases = <String, int>{
+            'XOX|XOX|OXO': 0,
+            'X-O|XXX|O-O': 1,
+            '--O|-XO|XXO': 0,
+            'X-O|XXX|OO-': -1,
+            '-XO|XXX|OO-': 10,
+            '---|-X-|---': 4,
+          };
+
+          testCases.forEach(
+            (state, field) {
+              test(
+                'calling claimField with $field on $state should throw InvalidClaimException',
+                () {
+                  expect(
+                    () => state.asTicTacToeGameState.claimField(field),
+                    throwsA(isA<InvalidClaimException>()),
+                  );
+                },
+              );
+            },
+          );
+        },
+      );
+
+      group(
+        'successfull claims',
+        () {
+          final testCases = [
+            _ClaimTestCase(
+                initial: '---|---|---', field: 4, expected: '---|-X-|---'),
+            _ClaimTestCase(
+                initial: '-OO|-X-|XXO', field: 0, expected: 'XOO|-X-|XXO'),
+            _ClaimTestCase(
+                initial: 'XOO|-X-|XXO', field: 5, expected: 'XOO|-XO|XXO'),
+          ];
+
+          for (var testCase in testCases) {
+            final start = testCase.initial;
+            final field = testCase.field;
+            final end = testCase.expected;
+
+            test(
+              'claiming $field on $start should result in $end',
+              () {
+                final startState = start.asTicTacToeGameState;
+                final expectedState = end.asTicTacToeGameState;
+
+                final actual = startState.claimField(field);
+
+                expect(actual.fields, expectedState.fields);
+                expect(actual.status, expectedState.status);
+              },
+            );
+          }
+        },
+      );
+    },
+  );
+}
+
+class _ClaimTestCase {
+  final String initial;
+  final int field;
+  final String expected;
+
+  _ClaimTestCase({
+    required this.initial,
+    required this.field,
+    required this.expected,
+  });
 }
 
 extension on String {
