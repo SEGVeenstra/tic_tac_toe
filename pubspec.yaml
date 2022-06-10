@@ -1,18 +1,17 @@
 name: tic_tac_toe_game
-description: A starting point for Dart libraries or applications.
+description: Game logic for the game Tic Tac Toe. Can be used to create a Tic Tac Toe game.
 version: 1.0.0
+homepage: https://github.com/SEGVeenstra/tic_tac_toe
 # homepage: https://www.example.com
 
 environment:
   sdk: '>=2.16.0 <3.0.0'
 
-
-# dependencies:
-#   path: ^1.8.0
+dependencies: 
+  equatable: ^2.0.3
+  meta: ^1.8.0
 
 dev_dependencies:
   lints: ^1.0.0
   test: ^1.16.0
-  meta: ^1.8.0
-dependencies: 
-  equatable: ^2.0.3
+
